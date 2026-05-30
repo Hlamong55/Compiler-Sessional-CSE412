@@ -1,0 +1,38 @@
+%{
+/* The Program replaces the substring abc by ABC from the given input string */
+#include <stdio.h>
+#include <string.h>
+int i;
+%}
+
+%option noyywrap
+
+%%
+
+[a-zA-Z]+ {
+    for(i = 0; i < yyleng; i++)
+    {
+        if((yytext[i] == 'a') &&
+           (yytext[i+1] == 'b') &&
+           (yytext[i+2] == 'c'))
+        {
+            yytext[i] = 'A';
+            yytext[i+1] = 'B';
+            yytext[i+2] = 'C';
+        }
+    }
+    printf("%s", yytext);
+}
+
+.   { printf("%s", yytext); }
+
+\n  { printf("\n"); }
+
+%%
+
+int main()
+{
+    printf("Enter string: ");
+    yylex();
+    return 0;
+}
